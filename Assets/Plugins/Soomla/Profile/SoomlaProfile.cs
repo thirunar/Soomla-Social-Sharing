@@ -390,16 +390,7 @@ namespace Soomla.Profile
 			if (targetProvider == null)
 				return;
 			
-			if (targetProvider.IsNativelyImplemented())
-			{
-				//fallback to native
-				string rewardId = reward != null ? reward.ID: "";
-				instance._updateStory(provider, message, name, caption, description, link, pictureUrl, 
-				                      ProfilePayload.ToJSONObj(userPayload, rewardId).ToString(), true, customMessage);
-			}
-			
-			else
-			{
+
 				// TODO: Support showConfirmation
 				ProfileEvents.OnSocialActionStarted(provider, SocialActionType.UPDATE_STORY, userPayload);
 				targetProvider.UpdateStory(message, name, caption, link, pictureUrl,
@@ -412,7 +403,6 @@ namespace Soomla.Profile
 				/* fail */		(string error) => {  ProfileEvents.OnSocialActionFailed (provider, SocialActionType.UPDATE_STORY, error, userPayload); },
 				/* cancel */	() => {  ProfileEvents.OnSocialActionCancelled(provider, SocialActionType.UPDATE_STORY, userPayload); }
 				);
-			}
 		}
 		
 		/// <summary>
